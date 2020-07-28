@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic Page Needs -->
+  <meta charset="utf-8">
+  <title>Bryan Tong {bt}</title>
+  <meta name="description" content="Homepage of Bryan Tong, Software Engineer.">
+  <meta name="author" content="Bryan Tong">
+  <meta name="keywords" content="Bryan Tong" />
+  <meta property="og:type" content="website" />
+	<meta property="og:title" content="Bryan Tong" />
+	<meta property="og:description" content="Homepage of Bryan Tong, Software Engineer." />
+	<meta property="og:image" content="http://btong.me/images/favicon.png" />
+	<link rel="shortcut icon" href="..//images/favicon.png" type="image/png" />
+	<link rel="shortcut icon" href="http://btong.me/favicon.png" type="image/x-icon">
+  <!-- Mobile Specific Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- CSS  -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/slider.css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/favicon.png">
+  <!-- Google stuff -->
+  <script src="/google_analytics_auto.js"></script>
+</head>
+
+<body>
+  <!-- Primary Page Layout -->
+  <div class="container">
+    <div class="row">
+      <div class="one-half column" style="margin-top: 25%">
+        <h4>
+          <div class="text"></div>
+        </h4>
+
+        <!-- Subheader text -->
+        <p>
+          A while back, I got bored and decided to create an Amazon Alexa skill.  It was mainly for the free 
+          Echo device at the time, but I was shocked to see quite a number of people were actually using it.
+        </p>
+
+        <p>
+          <a href="https://www.amazon.com/btong-me-Boredom-Solver/dp/B07482V679
+          ">Boredom Solver</a> is available on the Amazon store.
+          <br />
+        </p>
+
+        <p>
+          Below is a screencap some of the surprising metrics.
+          <br />
+          <img src="images/boredomsolver.png" alt="Boredom Solver metrics" width="400px">
+        </p>
+
+        <!-- Buttons! Yay buttons! -->
+        <a class="button" href="../projects.html">Go Back</a>
+        <!-- <a href="#0" class="button js-cd-panel-trigger" data-panel="main">Contact</a> -->
+      </div>
+    </div>
+  </div>
+
+<!-- End Document -->
+</body>
+
+<script>
+// BEGIN PROJECTS HOVER TOOL
+function hoverTool() {
+  document.getElementById("demo").innerHTML
+}
+
+
+
+// END PROJECTS HOVER TOOL
+
+// BEGIN H4 TEXT SCRAMBLER (s/o to CodePen, https://codepen.io/khalilliu/pen/RKvZKX)
+  class TextScramble {
+    constructor(el) {
+      this.el = el;
+      this.chars = '!<>-_\\/[]{}—=+*^?#________';
+      this.update = this.update.bind(this);
+    }
+
+    setText(newText){
+      const oldText = this.el.innerText;
+      const length = Math.max(oldText.length,newText.length);
+      const promise = new Promise((resolve)=>this.resolve = resolve);
+      
+      this.queue = [];
+      for(let i = 0;i<length;i++){
+        const from = oldText[i] || '';
+        const to  = newText[i] || '';
+        const start = Math.floor(Math.random()*40);
+        const end = Math.floor(Math.random()*40) + start;
+        this.queue.push({from,to,start,end});
+      }
+      
+      cancelAnimationFrame(this.frameRequest);
+      this.frame = 0;
+      this.update();
+      return promise;
+    }
+    
+    update() {
+      let output = '';
+      let complete = 0;
+      for(let i=0,n=this.queue.length;i<n;i++){
+        let {from,to,start,end,char} = this.queue[i];
+        
+        if(this.frame >= end){
+          complete++;
+          output += to;
+        }else if(this.frame >= start){
+          if(!char || Math.random() < 0.28){char = this.randomChar();this.queue[i].char = char;}
+          output += `<span class='dud'>${char}</span>`;
+        }else {
+          output += from;
+        }
+      }
+      this.el.innerHTML = output;
+      if(complete === this.queue.length){this.resolve();}else{
+        this.frameRequest = requestAnimationFrame(this.update);this.frame++;}
+    }
+      
+    randomChar() {
+      return this.chars[Math.floor(Math.random() * this.chars.length)]
+    }
+  }
+
+  const phrases = [
+    'boredom solver',
+  ]
+
+  const el = document.querySelector('.text');
+  const fx = new TextScramble(el);
+
+  let counter = 0;
+  let reset = false;
+  const next = () => {
+    if (reset) {
+      fx.setText(phrases[counter])
+    } else {
+      fx.setText(phrases[counter]).then(()=>{
+        setTimeout(next,800)
+      })
+      counter = (counter+1) % phrases.length
+      if (counter == 0) {
+        reset = true;
+      }
+    }
+    //console.log(counter)
+  }
+  next()
+// END JS SCRIPTS
+</script>
+
+</html>
