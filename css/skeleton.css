@@ -176,6 +176,12 @@ p {
   color: #00AE9E;
 }
 
+.instagram-text{
+  background: rgb(131,58,180);
+  background: linear-gradient(90deg,rgba(131,58,180,1) 0%,rgba(253,29,29,1) 50%,rgba(252,176,69,1) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
 
 
@@ -418,14 +424,6 @@ hr {
   font-weight:100;
   font-size:28px;
   color:#fafafa;
-}
-
-
-.textt{
-  background: rgb(131,58,180);
-  background: linear-gradient(90deg,rgba(131,58,180,1) 0%,rgba(253,29,29,1) 50%,rgba(252,176,69,1) 100%);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
 }
 
 
