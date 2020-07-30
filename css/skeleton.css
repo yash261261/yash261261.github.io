@@ -183,6 +183,12 @@ p {
   -webkit-text-fill-color: transparent;
 }
 
+.gmail-text {
+	background: linear-gradient(to right, #D44638 100%, #B23121 100%, #EEEEEE 100%, #E2E2E2 100%, #DADADA 100%, #C6C6C6 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
 
 
 /* Links
