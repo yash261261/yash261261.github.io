@@ -147,6 +147,12 @@
     'Yash Patel',
     'software engineer',
   ]
+  const phrasess = [
+    '{yashpatel.me}',
+    'homepage of',
+    'Yash Patel',
+    'software engineer',
+  ]
 
   const el = document.querySelector('.text');
   const fx = new TextScramble(el);
@@ -169,6 +175,26 @@
   }
   next()
 // END JS SCRIPTS
+  const el = document.querySelector('.text');
+  const fx = new TextScramble(el);
+
+  let counter = 0;
+  let reset = false;
+  const next = () => {
+    if (reset) {
+      fx.setText(phrasess[counter])
+    } else {
+      fx.setText(phrasess[counter]).then(()=>{
+        setTimeout(next,800)
+      })
+      counter = (counter+1) % phrasess.length
+      if (counter == 0) {
+        reset = true;
+      }
+    }
+    //console.log(counter)
+  }
+  next()
 </script>
 
 </html>
