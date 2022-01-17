@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic Page Needs -->
+  <meta charset="utf-8">
+  <title>Yash Patel {yp}</title>
+  <meta name="description" content="Homepage of Yash Patel, Software Engineer.">
+  <meta name="author" content="Yash Patel">
+  <meta name="keywords" content="Yash Patel" />
+  <meta property="og:type" content="website" />
+	<meta property="og:title" content="Yash Patel" />
+	<meta property="og:description" content="Homepage of Yash Patel, Software Engineer." />
+	<!-- <meta property="og:image" content="http://yash.me/images/favicon.png" /> -->
+	<link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
+  <!-- Mobile Specific Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- CSS  -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/slider.css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <!-- Google stuff -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-73463502-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-73463502-1');
+  </script>
+</head>
+
+<body>
+  <!-- Primary Page Layout -->
+  <div class="container" style="padding: 0 0 100px 0">
+    <div class="row">
+      <div class="one-half column" style="margin-top: 25%">
+        <h4>
+          <div class="text"></div>
+        </h4>
+        <!-- Subheader text -->
+	 <p>
+		
+         I got an alert, I traced it back with an error trace and spotted the point of exception. And at that point, we were connecting with the Elastic search server. And the error, “Connection timed out”, the sentry was showing clearly shows that our code is trying to connect with some third party and is unable to connect with. So I saw that code is trying to connect with elastic search I came to the conclusion that our elastic search server is down somehow. I took the DevOps team in the loop and they confirmed that there is some issue with the server and they fixed it.
+         
+          
+         
+          <br>
+         Handling exceptions more carefully:
+         The elastic search server was back and the issue was fixed but this was not enough, as it could again be a show stopper for the end-users in case our elastic search server goes down. So I decided to handle the exception more carefully and we caught TimeoutException and logged a proper error instead of throwing it and breaking the application.
+         Now our application won’t break if our elastic search server is down, as we have handled the exception at the place where we were trying to connect, but it could break again where we were trying to use that connection as now it won’t return the connection it and will silently log an exception and that was our next interesting challenge. To handle this we figured the places where this particular connection was being used and luckily that was just one place and we added a default value at that place and updated the docstring to express that learning:
+         
+         
+         Whenever we try to connect with any third-party services, properly think through and handle all possible exceptions like timeout, internal error in that service, etc. <br />
+ 
+ 
+
+       <!--  <div id="sliding-div">
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
+        </div> -->
+
+        <!-- Buttons! Yay buttons! -->
+        <a class="button" href="index.html">Homepage</a>
+        <a class="button" href="blogs.html">Back to Blogs</a>
+        <!-- <a href="#0" class="button js-cd-panel-trigger" data-panel="main">Contact</a> -->
+      </div>
+    </div>
+  </div>
+
+<!-- End Document -->
+</body>
+
+<script>
+// BEGIN PROJECTS HOVER TOOL
+function hoverTool() {
+  document.getElementById("demo").innerHTML
+}
+
+
+
+// END PROJECTS HOVER TOOL
+
+// BEGIN H4 TEXT SCRAMBLER (s/o to CodePen, https://codepen.io/khalilliu/pen/RKvZKX)
+  class TextScramble {
+    constructor(el) {
+      this.el = el;
+      this.chars = '!<>-_\\/[]{}—=+*^?#________';
+      this.update = this.update.bind(this);
+    }
+
+    setText(newText){
+      const oldText = this.el.innerText;
+      const length = Math.max(oldText.length,newText.length);
+      const promise = new Promise((resolve)=>this.resolve = resolve);
+      
+      this.queue = [];
+      for(let i = 0;i<length;i++){
+        const from = oldText[i] || '';
+        const to  = newText[i] || '';
+        const start = Math.floor(Math.random()*40);
+        const end = Math.floor(Math.random()*40) + start;
+        this.queue.push({from,to,start,end});
+      }
+      
+      cancelAnimationFrame(this.frameRequest);
+      this.frame = 0;
+      this.update();
+      return promise;
+    }
+    
+    update() {
+      let output = '';
+      let complete = 0;
+      for(let i=0,n=this.queue.length;i<n;i++){
+        let {from,to,start,end,char} = this.queue[i];
+        
+        if(this.frame >= end){
+          complete++;
+          output += to;
+        }else if(this.frame >= start){
+          if(!char || Math.random() < 0.28){char = this.randomChar();this.queue[i].char = char;}
+          output += `<span class='dud'>${char}</span>`;
+        }else {
+          output += from;
+        }
+      }
+      this.el.innerHTML = output;
+      if(complete === this.queue.length){this.resolve();}else{
+        this.frameRequest = requestAnimationFrame(this.update);this.frame++;}
+    }
+      
+    randomChar() {
+      return this.chars[Math.floor(Math.random() * this.chars.length)]
+    }
+  }
+
+  const phrases = [
+    'Finding the root cause',
+  ]
+
+  const el = document.querySelector('.text');
+  const fx = new TextScramble(el);
+
+  let counter = 0;
+  let reset = false;
+  const next = () => {
+    if (reset) {
+      fx.setText(phrases[counter])
+    } else {
+      fx.setText(phrases[counter]).then(()=>{
+        setTimeout(next,800)
+      })
+      counter = (counter+1) % phrases.length
+      if (counter == 0) {
+        reset = true;
+      }
+    }
+    //console.log(counter)
+  }
+  next()
+// END JS SCRIPTS
+</script>
+
+</html>

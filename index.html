@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic Page Needs -->
+  <meta charset="utf-8">
+  <title>Yash Patel {yp}</title>
+  <meta name="description" content="Homepage of Yash Patel, Software Engineer.">
+  <meta name="author" content="Yash Patel">
+  <meta name="keywords" content="Yash Patel" />
+  <meta property="og:type" content="website" />
+	<meta property="og:title" content="Yash Patel" />
+	<meta property="og:description" content="Homepage of Yash Patel, Software Engineer." />
+	<link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
+  <!-- Mobile Specific Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:700&display=swap" rel="stylesheet">
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- CSS  -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/slider.css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <!-- Google stuff -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-73463502-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-73463502-1');
+  </script>
+</head>
+
+<body>
+  <!-- Primary Page Layout -->
+  <div class="container">
+    <div class="row">
+      <div class="one-half column" style="margin-top: 20%">
+        <h4>
+          <div class="text"></div>
+        </h4>
+
+        <!-- Subheader text -->
+        <p>
+          Software Engineer @ <span class="unicorn">some unicorn</span>
+        </p>
+        <p>
+          -<span class="vmw">Alumni of Cal State LA</span>, Ex-<span class="pivotal">Guitar Instructor</span>
+          <br />
+          Former Co-Instructor of <a href="https://www.coursicle.com/calstatela/courses/CS/5112/"><strong><font color="navyblue">CS</font></strong><font color="orange">5112</font></a>, 
+   	  <!--Former President of <a href=""><font color="lightskyblue">Self</font></a> -->
+	  Currently working at <a href="https://www.icanbwell.com/"><font color="lightskyblue">b.well</font></a>
+        </p>
+
+        <!-- Bio text -->
+        <p>
+		I studied Computer Science @ <a href="http://www.calstatela.edu/"><font color="yellow">Cal State LA</font></a>.  In my free time, I nerd out over coffee, music and sometimes reading.
+          My current tech interests include AR/VR, robotics, meshnets, and futurism. My current general interests are space and electric cars.
+          I also want to start a <a href=""><font color="red">YouTube channel</font></a> with a few videos.
+          <br />
+        </p>
+          Media Mentions: 
+	    <a href="mailto:yash261261@gmail.com"><span class="gmail-text">Gmail</span></a>, 
+            <a href="https://www.linkedin.com/in/yash261261/"><font color="lightskyblue">LinkedIn</font></a>, 
+            <a href="https://github.com/yash261261"><font color="mintcream">GitHub</font></a>, 
+            <a href="https://twitter.com/yash261261"><font color="deepskyblue">Twitter</font></a>, 
+	    <a href="https://www.instagram.com/yashh.patell/"><span class="instagram-text">Instagram</span></a>,
+            <a href="https://www.facebook.com/yashhpatell"><font color="steelblue">Facebook</font></a>,
+	    <a href="https://www.snapchat.com/add/yash_2601"><font color="yellow">Snapchat</font></a>
+        </p>
+
+        <!-- Buttons! Yay buttons! -->
+        <a class="button" href="/resume.pdf">Resume</a>
+        <a class="button" href="projects.html">Projects</a>
+	<a class="button" href="calendar.html">Schedule a Meeting</a>
+	<a class="button" href="dreams.html">Dreams of YP 🦄</a>
+	<a class="button" href="quotes.html">Favv Quotes</a>
+	<a class="button" href="blogs.html">Blogss</a>
+	<a class="button" href="">Contact YP</a>
+        <!-- <a href="#0" class="button js-cd-panel-trigger" data-panel="main">Contact</a> -->
+      </div>
+    </div>
+  </div>
+
+
+<!-- End Document -->
+</body>
+
+<script>
+  class TextScramble {
+    constructor(el) {
+      this.el = el;
+      this.chars = '!<>-_\\/[]{}—=+*^?#________';
+      this.update = this.update.bind(this);
+    }
+
+    setText(newText){
+      const oldText = this.el.innerText;
+      const length = Math.max(oldText.length,newText.length);
+      const promise = new Promise((resolve)=>this.resolve = resolve);
+      
+      this.queue = [];
+      for(let i = 0;i<length;i++){
+        const from = oldText[i] || '';
+        const to  = newText[i] || '';
+        const start = Math.floor(Math.random()*40);
+        const end = Math.floor(Math.random()*40) + start;
+        this.queue.push({from,to,start,end});
+      }
+      
+      cancelAnimationFrame(this.frameRequest);
+      this.frame = 0;
+      this.update();
+      return promise;
+    }
+    
+    update() {
+      let output = '';
+      let complete = 0;
+      for(let i=0,n=this.queue.length;i<n;i++){
+        let {from,to,start,end,char} = this.queue[i];
+        
+        if(this.frame >= end){
+          complete++;
+          output += to;
+        }else if(this.frame >= start){
+          if(!char || Math.random() < 0.28){char = this.randomChar();this.queue[i].char = char;}
+          output += `<span class='dud'>${char}</span>`;
+        }else {
+          output += from;
+        }
+      }
+      this.el.innerHTML = output;
+      if(complete === this.queue.length){this.resolve();}else{
+        this.frameRequest = requestAnimationFrame(this.update);this.frame++;}
+    }
+      
+    randomChar() {
+      return this.chars[Math.floor(Math.random() * this.chars.length)]
+    }
+  }
+
+  const phrases = [
+    '{yashpatel.me}',
+    'homepage of',
+    'Yash Patel',
+    'software engineer',
+  ]
+
+  const el = document.querySelector('.text');
+  const fx = new TextScramble(el);
+
+  let counter = 0;
+  let reset = false;
+  const next = () => {
+    if (reset) {
+      fx.setText(phrases[counter])
+    } else {
+      fx.setText(phrases[counter]).then(()=>{
+        setTimeout(next,800)
+      })
+      counter = (counter+1) % phrases.length
+      if (counter == 0) {
+        reset = true;
+      }
+    }
+    //console.log(counter)
+  }
+  next()
+// END JS SCRIPTS
+</script>
+
+</html>

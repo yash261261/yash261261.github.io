@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<!--
+	Modified by Bryan Tong for btong.me
+	Reflex by Pixelarity
+	pixelarity.com | hello@pixelarity.com
+	License: pixelarity.com/license
+
+	Some kinda old stuff.  I'm looking for a full-time job, I can do cooler stuff than this if you let me! :)
+-->
+<html>
+	<head>
+		<title>Bryan Tong | btong.me</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+
+		<!-- My added meta stuff. -->
+		<meta name="description" content="The personal homepage of Bryan Tong." />
+		<meta name="keywords" content="Bryan Tong" />
+		<link rel="shortcut icon" href="images/favicon.png" type="image/png" />
+		<link rel="shortcut icon" href="http://btong.me/favicon.png" type="image/x-icon">
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Bryan Tong" />
+		<meta property="og:description" content="The personal homepage of Bryan Tong." />
+		<meta property="og:image" content="http://btong.me/images/favicon.png" />
+
+		<!-- Google stuff -->
+		<script src="/google_analytics_auto.js"></script>
+		<script src='https://www.google.com/recaptcha/api.js'></script>
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<nav>
+					<ul>
+						<li><a href="#menu">Menu</a></li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Menu -->
+			<nav id="menu">
+				<h2>Menu</h2>
+				<ul class="links">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="about.html">About Me</a></li>
+					<li><a href="teaching.html">Teaching</a></li>
+					<li><a href="projects.html">Projects</a></li>
+					<!--<li><a href="elements.html">Elements</a></li>-->
+				</ul>
+				<ul class="actions vertical">
+					<li><a href="index.html#contact" class="button fit special">Contact Me</a></li>
+					<li><a href="changelog.html" class="button fit">Changelog</a></li>
+				</ul>
+			</nav>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper style1">
+						<div class="inner">
+						<div class="content"
+							<header class="major" align="center">
+								<h1>jURL Generator</h1>
+								<p>Quirky, condensed URL fun!</p>
+							</header>
+						</div>
+						<div>
+						<script type="text/javascript">
+
+							function loadFile(filename) {
+								var reader = new FileReader();
+								reader.onload = (function(theFile) {
+								    return function(e) {
+								        console.log(e.target.result);
+								    };
+								})(file_path);
+
+								var file_path = filename;
+								var file_parts = [
+								    new Blob(['you construct a file...'],{type: 'text/plain'}), 
+								    'Same way as you do with blob',
+								    new Uint16Array([33])
+								];
+								var file = new File(file_parts, file_path);
+								var readString = reader.readAsText(file);
+								return readString;
+							}
+
+							function genRandomURL() {
+								var jWord = getJapaneseWord();
+								var eWord = getEnglishWord();
+								//var url = jWord + eWord;
+								console.log(jWord);
+								console.log(eWord);
+							    document.getElementById("display").innerHTML = "hi";
+							}
+
+							function getJapaneseWord() {
+								var word = getRandomWord('diceware_jp.txt');
+								return word;
+							}
+
+							function getEnglishWord() {
+								var word = getRandomWord('googleMediumList10000.txt');
+								return word;
+							}
+
+							function getRandomWord(filename){
+								var fileAsString = loadFile(filename);
+								console.log(fileAsString);
+								var res = fileAsString.split(" "); 
+								console.log(res);
+								var length = res.length - 1;
+								console.log(length);
+								var randomIndex = getRandomInt(0, res.length);
+								console.log(randomIndex);
+								return res[randomIndex];
+							}
+
+							/* Via StackOverflow. */
+							function getRandomInt(min, max) {
+							    return Math.floor(Math.random() * (max - min + 1)) + min;
+							}
+
+							function myFunction() {
+							    document.getElementById("demo").innerHTML = "Hello World";
+							}
+						</script>
+
+						<p>Click the button generate a random jURL.</p>
+						<button onclick="genRandomURL()">Click me</button>
+						<p id="display"></p>
+							
+						</div>
+					</section>
+
+				<!-- Footer -->
+					<section id="footer" class="wrapper split style2">
+						<div class="copyright">
+							<p>&copy; 2017 Bryan Tong. All rights reserved.</p>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src='https://www.google.com/recaptcha/api.js'></script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

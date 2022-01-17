@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+    #subdivision {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      opacity: 0;
+    }
+
+    #subdivision input {
+      width: 200px;
+    }
+
+    html {
+      background-color: #124191;
+    }
+
+    #body {
+      justify-content: center;
+      align-content: center;
+      color: white;
+    }
+    
+    #path {
+      color: white;
+    }
+
+    .svg-container {
+      display: inline-block;
+      position: relative;
+      width: 100%;
+      padding-bottom: 100%; /* aspect ratio */
+      vertical-align: center;
+      overflow: hidden;
+      justify-content: center;
+      align-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .svg-content-responsive {
+      max-width: 1000px;
+      display: inline-block;
+      position: absolute;
+      top: 10px;
+      left: 0;
+    }
+
+    .arc {
+      fill: blue;
+    }
+
+    @font-face {
+      font-family: nokiaPureSymbols;
+      src: url('/assets/fonts/Nokia_Pure/nokiaPureSymbols.ttf');
+      font-weight: normal;
+    }
+
+</style>
+
+<div>
+Hello
+</div>
+<div id="subdivision">
+  Default: 2
+  <input type="range" min="1" max="12" value="2">
+  <output name="subdivision"></output>
+</div>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="d3.geodesic.min.js"></script>
+<script>
+//import './css/Icosphere.css' FOR REACT.JS
+
+var width = 960,
+    height = 500;
+
+var velocity = [.010, .010],
+    t0 = Date.now();
+
+var projection = d3.geo.orthographic()
+    .scale(height / 2 - 10);
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var canvas = d3.select("body").append("canvas")
+    .attr("width", width)
+    .attr("height", height)
+    .on("mousedown", mousedown) // tbd
+    .on("mousemove", mousemove)
+    .on("mouseup", mouseup)
+   .classed("svg-container", true) //container class to make it responsive
+   //responsive SVG needs these 2 attributes and no width and height attr
+   .attr("preserveAspectRatio", "xMinYMin meet")
+   .attr("viewBox", "0 0 600 400")
+   //class to make it responsive
+   .classed("svg-content-responsive", true); 
+
+
+var radius = 960;
+
+    var svg = d3.select("body").append("svg")
+    .attr("width", radius )
+    .attr("height", radius)
+    .on("mousedown", mousedown)
+    .on("mousemove", mousemove)
+    .on("mouseup", mouseup);
+
+var context = canvas.node().getContext("2d");
+    // ESSENTIAL -  Stops lines overlapping nodes
+    context.globalCompositeOperation='darken';
+
+
+
+context.strokeStyle = "white";
+context.lineWidth = 0.25;
+
+var faces;
+
+var output = d3.select("output");
+
+var input = d3.select("input")
+    .on("input", function() { geodesic(+this.value); })
+    .on("change", function() { geodesic(+this.value); })
+    .each(function() { geodesic(+this.value); });
+
+var timedOut;
+
+d3.timer(function() {
+  //if (timedOut = true) {
+    //var time = Date.now() - t0;
+    //projection.rotate([time * velocity[0], time * velocity[1]]);
+    //redraw();
+  //} https://stackoverflow.com/questions/9371280/how-to-fire-an-event-after-n-seconds-of-maintained-click-jquery-javascript USE THIS
+});
+
+function redraw() {
+  context.clearRect(0, 0, width, height);
+
+  faces.forEach(function(d) {
+    d.polygon[0] = projection(d[0]);
+    d.polygon[1] = projection(d[1]);
+    d.polygon[2] = projection(d[2]);
+    if (d.visible = d.polygon.area() > 0) {
+      drawTriangle(d.polygon);
+    }
+    if (d.visible = d.polygon.area() > 1000) {
+      drawCircle(d.polygon);
+    }
+
+  });
+  // context.beginPath();
+  // faces.forEach(function(d) {
+  //   if (d.visible) {
+  //     drawTriangle(d.polygon);
+  //     drawCircle(d.polygon);
+  //   }
+  // });
+  context.stroke();
+}
+
+function drawTriangle(triangle) {
+  context.beginPath();
+  context.moveTo(triangle[0][0], triangle[0][1]);
+  context.lineTo(triangle[1][0], triangle[1][1]);
+  context.lineTo(triangle[2][0], triangle[2][1]);
+  context.closePath();
+  context.lineWidth = 0.25;
+  context.stroke();
+}
+
+function drawCircle(triangle) {
+  context.beginPath();
+  context.arc(triangle[0][0], triangle[0][1], 30, 0, 2 * Math.PI, false);
+  context.fillStyle = "#124191";
+  context.fill();
+  context.lineWidth = 1;
+  context.moveTo(triangle[0][0], triangle[0][1])
+  context.stroke();
+  context.closePath();
+
+  // fixme
+  insertIcon(triangle);
+}
+
+function insertIcon(triangle) {
+  //https://stackoverflow.com/questions/13615381/d3-add-text-to-circle
+}
+
+function geodesic(subdivision) {
+  output.text(subdivision);
+
+  faces = d3.geodesic.polygons(subdivision).map(function(d) {
+    d = d.coordinates[0];
+    d.pop(); // use an open polygon
+    d.fill = d3.hsl(d[0][0], 1, .5) + "";
+    d.polygon = d3.geom.polygon(d.map(projection));
+    return d;
+  });
+  redraw();
+}
+
+// TRACKBALL SCRIPTS FROM ICOSPHERE.HTML
+function trackballAngles(pt) {
+  // based on http://www.opengl.org/wiki/Trackball  
+  // given a click at (x,y) in canvas coords on the globe (trackball),
+  // calculate the spherical coordianates for the point as a rotation around
+  // the vertical and horizontal axes
+  
+  var r = projection.scale();
+  var c = projection.translate();
+  var x = pt[0] - c[0], y = - (pt[1] - c[1]), ss = x*x + y*y;
+
+
+  var z = r*r > 2 * ss ? Math.sqrt(r*r - ss) : r*r / 2 / Math.sqrt(ss);  
+
+  var lambda = Math.atan2(x, z) * 180 / Math.PI; 
+  var phi = Math.atan2(y, z) * 180 / Math.PI
+  return [lambda, phi];
+}
+
+/* Credits to bl.ocks.org guy */
+function composedRotation(λ, ϕ, γ, δλ, δϕ) {
+    λ = Math.PI / 180 * λ;
+    ϕ = Math.PI / 180 * ϕ;
+    γ = Math.PI / 180 * γ;
+    δλ = Math.PI / 180 * δλ;
+    δϕ = Math.PI / 180 * δϕ;
+    
+    var sλ = Math.sin(λ), sϕ = Math.sin(ϕ), sγ = Math.sin(γ), 
+        sδλ = Math.sin(δλ), sδϕ = Math.sin(δϕ),
+        cλ = Math.cos(λ), cϕ = Math.cos(ϕ), cγ = Math.cos(γ), 
+        cδλ = Math.cos(δλ), cδϕ = Math.cos(δϕ);
+
+    var m00 = -sδλ * sλ * cϕ + (sγ * sλ * sϕ + cγ * cλ) * cδλ,
+            m01 = -sγ * cδλ * cϕ - sδλ * sϕ,
+                m02 = sδλ * cλ * cϕ - (sγ * sϕ * cλ - sλ * cγ) * cδλ,
+        m10 = - sδϕ * sλ * cδλ * cϕ - (sγ * sλ * sϕ + cγ * cλ) * sδλ * sδϕ - (sλ * sϕ * cγ - sγ * cλ) * cδϕ,
+            m11 = sδλ * sδϕ * sγ * cϕ - sδϕ * sϕ * cδλ + cδϕ * cγ * cϕ,
+                 m12 = sδϕ * cδλ * cλ * cϕ + (sγ * sϕ * cλ - sλ * cγ) * sδλ * sδϕ + (sϕ * cγ * cλ + sγ * sλ) * cδϕ,
+        m20 = - sλ * cδλ * cδϕ * cϕ - (sγ * sλ * sϕ + cγ * cλ) * sδλ * cδϕ + (sλ * sϕ * cγ - sγ * cλ) * sδϕ,
+            m21 = sδλ * sγ * cδϕ * cϕ - sδϕ * cγ * cϕ - sϕ * cδλ * cδϕ,
+                 m22 = cδλ * cδϕ * cλ * cϕ + (sγ * sϕ * cλ - sλ * cγ) * sδλ * cδϕ - (sϕ * cγ * cλ + sγ * sλ) * sδϕ;
+                 
+    if (m01 != 0 || m11 != 0) {
+         γ_ = Math.atan2(-m01, m11);
+         ϕ_ = Math.atan2(-m21, Math.sin(γ_) == 0 ? m11 / Math.cos(γ_) : - m01 / Math.sin(γ_));
+         λ_ = Math.atan2(-m20, m22);
+    } else {
+         γ_ = Math.atan2(m10, m00) - m21 * λ;
+         ϕ_ = - m21 * Math.PI / 2;
+         λ_ = λ;       
+    }
+    
+    return([λ_ * 180 / Math.PI, ϕ_ * 180 / Math.PI, γ_ * 180 / Math.PI]);
+}
+    
+var m0 = null,
+    firstMovement = true;
+    o0 = null,
+    mouseUp = true;
+  
+function mousedown() {  // remember where the mouse was pressed, in canvas coords
+  timedOut = false;
+  mouseUp = false;
+  console.log("MOUSE IS DOWN BABY");
+  if (firstMovement) {
+    m0 = trackballAngles(d3.mouse(svg[0][0]));
+    o0 = projection.rotate();
+  } else {
+    firstMovement = false;
+  }
+
+  d3.event.preventDefault();
+}
+
+function mousemove() {
+  if (m0 && !mouseUp) {  // if mousedown
+    console.log("MOUSE IS MOVING BABY");
+    var m1 = trackballAngles(d3.mouse(svg[0][0]));
+    // Sets up the coordinates for rotation to handle
+    o1 = composedRotation(o0[0], o0[1], o0[2], -m1[0] + m0[0], -m1[1] + m0[1])
+    // Updates the projection's rotation
+    projection.rotate(m1); // overrites too much with mouse POSITION
+    projection.rotate(o1); // overrites too much with mouse POSITION
+    console.log(o1)
+    // Updates the draw to not reset
+    o0 = o1;
+    m0 = m1;
+    svg.selectAll("path").attr("d", path); 
+    redraw();
+  }
+}
+
+function mouseup() {
+  console.log("MOUSE IS UP BABY");
+  // if (m0) {
+  //   mousemove();
+  //   m0 = null;
+  // }
+  mouseUp = true;
+}
+
+</script>
