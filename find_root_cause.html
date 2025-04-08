@@ -4,14 +4,14 @@
   <!-- Basic Page Needs -->
   <meta charset="utf-8">
   <title>Yash Patel {yp}</title>
-  <meta name="description" content="Homepage of Yash Patel, Software Engineer.">
+  <meta name="description" content="Homepage of Yash Patel, Product Manager">
   <meta name="author" content="Yash Patel">
   <meta name="keywords" content="Yash Patel" />
   <meta property="og:type" content="website" />
-	<meta property="og:title" content="Yash Patel" />
-	<meta property="og:description" content="Homepage of Yash Patel, Software Engineer." />
-	<!-- <meta property="og:image" content="http://yash.me/images/favicon.png" /> -->
-	<link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
+  <meta property="og:title" content="Yash Patel" />
+  <meta property="og:description" content="Homepage of Yash Patel, Product Manager" />
+  <!-- <meta property="og:image" content="http://yash.me/images/favicon.png" /> -->
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
   <!-- Mobile Specific Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Fonts -->
@@ -33,42 +33,67 @@
 
     gtag('config', 'UA-73463502-1');
   </script>
+  <style>
+    /* Centering the content and making it wider */
+    .container {
+      padding: 0 0 100px 0;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+    }
+
+    .one-half {
+      width: 70%; /* Make it wider */
+      text-align: center;
+    }
+
+    .text {
+      display: inline-block;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+
+    .button:hover {
+      background-color: #0056b3;
+    }
+
+  </style>
 </head>
 
 <body>
   <!-- Primary Page Layout -->
-  <div class="container" style="padding: 0 0 100px 0">
+  <div class="container">
     <div class="row">
-      <div class="one-half column" style="margin-top: 25%">
+      <div class="one-half">
         <h4>
           <div class="text"></div>
         </h4>
         <!-- Subheader text -->
-	 <p>
-		
-         I got an alert, I traced it back with an error trace and spotted the point of exception. And at that point, we were connecting with the Elastic search server. And the error, “Connection timed out”, the sentry was showing clearly shows that our code is trying to connect with some third party and is unable to connect with. So I saw that code is trying to connect with elastic search I came to the conclusion that our elastic search server is down somehow. I took the DevOps team in the loop and they confirmed that there is some issue with the server and they fixed it.
-         
-          
-         
-          <br>
-         Handling exceptions more carefully:
-         The elastic search server was back and the issue was fixed but this was not enough, as it could again be a show stopper for the end-users in case our elastic search server goes down. So I decided to handle the exception more carefully and we caught TimeoutException and logged a proper error instead of throwing it and breaking the application.
-         Now our application won’t break if our elastic search server is down, as we have handled the exception at the place where we were trying to connect, but it could break again where we were trying to use that connection as now it won’t return the connection it and will silently log an exception and that was our next interesting challenge. To handle this we figured the places where this particular connection was being used and luckily that was just one place and we added a default value at that place and updated the docstring to express that learning:
-         
-         
-         Whenever we try to connect with any third-party services, properly think through and handle all possible exceptions like timeout, internal error in that service, etc. <br />
- 
- 
+        <p>
+          I got an alert, I traced it back with an error trace and spotted the point of exception. And at that point, we were connecting with the Elastic search server. And the error, “Connection timed out”, the sentry was showing clearly shows that our code is trying to connect with some third party and is unable to connect with. So I saw that code is trying to connect with elastic search I came to the conclusion that our elastic search server is down somehow. I took the DevOps team in the loop and they confirmed that there is some issue with the server and they fixed it.
 
-       <!--  <div id="sliding-div">
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
-        </div> -->
+          <br>
+          Handling exceptions more carefully:
+          The elastic search server was back and the issue was fixed but this was not enough, as it could again be a show stopper for the end-users in case our elastic search server goes down. So I decided to handle the exception more carefully and we caught TimeoutException and logged a proper error instead of throwing it and breaking the application.
+          Now our application won’t break if our elastic search server is down, as we have handled the exception at the place where we were trying to connect, but it could break again where we were trying to use that connection as now it won’t return the connection it and will silently log an exception and that was our next interesting challenge. To handle this we figured the places where this particular connection was being used and luckily that was just one place and we added a default value at that place and updated the docstring to express that learning:
+
+          Whenever we try to connect with any third-party services, properly think through and handle all possible exceptions like timeout, internal error in that service, etc. <br />
+        </p>
 
         <!-- Buttons! Yay buttons! -->
         <a class="button" href="index.html">Homepage</a>
         <a class="button" href="blogs.html">Back to Blogs</a>
-        <!-- <a href="#0" class="button js-cd-panel-trigger" data-panel="main">Contact</a> -->
       </div>
     </div>
   </div>
@@ -81,9 +106,6 @@
 function hoverTool() {
   document.getElementById("demo").innerHTML
 }
-
-
-
 // END PROJECTS HOVER TOOL
 
 // BEGIN H4 TEXT SCRAMBLER (s/o to CodePen, https://codepen.io/khalilliu/pen/RKvZKX)
