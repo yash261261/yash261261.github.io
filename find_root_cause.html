@@ -9,7 +9,7 @@
   <meta name="keywords" content="Yash Patel" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Yash Patel" />
-  <meta property="og:description" content="Homepage of Yash Patel, Product Manager" />
+  <meta property="og:description" content="Homepage of Yash Patel, Product Manager"/>
   <!-- <meta property="og:image" content="http://yash.me/images/favicon.png" /> -->
   <link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
   <!-- Mobile Specific Metas -->
@@ -34,66 +34,52 @@
     gtag('config', 'UA-73463502-1');
   </script>
   <style>
-    /* Centering the content and making it wider */
-    .container {
-      padding: 0 0 100px 0;
-    }
-
-    .row {
-      display: flex;
-      justify-content: center;
-    }
-
-    .one-half {
-      width: 70%; /* Make it wider */
+    .content {
       text-align: center;
+      margin-top: 10%;
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .text {
-      display: inline-block;
+    .content h4 {
       font-size: 24px;
-      font-weight: bold;
+      color: #333;
     }
 
-    .button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #007BFF;
-      color: white;
-      border-radius: 5px;
-      text-decoration: none;
+    .content p {
+      font-size: 18px;
+      color: #555;
+      margin-top: 15px;
     }
 
-    .button:hover {
-      background-color: #0056b3;
+    .content p:hover {
+      color: #1E90FF;
+      transition: color 0.3s ease;
     }
-
   </style>
 </head>
 
 <body>
   <!-- Primary Page Layout -->
-  <div class="container">
+  <div class="container" style="padding: 0 0 100px 0">
     <div class="row">
-      <div class="one-half">
+      <div class="one-half column content">
         <h4>
           <div class="text"></div>
         </h4>
         <!-- Subheader text -->
         <p>
           I got an alert, I traced it back with an error trace and spotted the point of exception. And at that point, we were connecting with the Elastic search server. And the error, “Connection timed out”, the sentry was showing clearly shows that our code is trying to connect with some third party and is unable to connect with. So I saw that code is trying to connect with elastic search I came to the conclusion that our elastic search server is down somehow. I took the DevOps team in the loop and they confirmed that there is some issue with the server and they fixed it.
-
+          
           <br>
           Handling exceptions more carefully:
           The elastic search server was back and the issue was fixed but this was not enough, as it could again be a show stopper for the end-users in case our elastic search server goes down. So I decided to handle the exception more carefully and we caught TimeoutException and logged a proper error instead of throwing it and breaking the application.
           Now our application won’t break if our elastic search server is down, as we have handled the exception at the place where we were trying to connect, but it could break again where we were trying to use that connection as now it won’t return the connection it and will silently log an exception and that was our next interesting challenge. To handle this we figured the places where this particular connection was being used and luckily that was just one place and we added a default value at that place and updated the docstring to express that learning:
 
-          Whenever we try to connect with any third-party services, properly think through and handle all possible exceptions like timeout, internal error in that service, etc. <br />
+          Whenever we try to connect with any third-party services, properly think through and handle all possible exceptions like timeout, internal error in that service, etc.
         </p>
-
-        <!-- Buttons! Yay buttons! -->
-                <a class="button" href="index.html">Homepage</a>
-                <a class="button" href="blogs.html">Back to Blogs</a>
       </div>
     </div>
   </div>
@@ -106,6 +92,8 @@
 function hoverTool() {
   document.getElementById("demo").innerHTML
 }
+
+
 // END PROJECTS HOVER TOOL
 
 // BEGIN H4 TEXT SCRAMBLER (s/o to CodePen, https://codepen.io/khalilliu/pen/RKvZKX)
@@ -183,7 +171,6 @@ function hoverTool() {
         reset = true;
       }
     }
-    //console.log(counter)
   }
   next()
 // END JS SCRIPTS
