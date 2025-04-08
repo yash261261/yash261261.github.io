@@ -9,7 +9,7 @@
   <meta name="keywords" content="Yash Patel" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Yash Patel" />
-  <meta property="og:description" content="Homepage of Yash Patel, Product Manager"/>
+  <meta property="og:description" content="Homepage of Yash Patel, Product Manager" />
   <!-- <meta property="og:image" content="http://yash.me/images/favicon.png" /> -->
   <link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
   <!-- Mobile Specific Metas -->
@@ -37,7 +37,6 @@
     .content {
       text-align: center;
       margin-top: 10%;
-      padding: 20px;
       border: 2px solid #ccc;
       border-radius: 10px;
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -54,9 +53,23 @@
       margin-top: 15px;
     }
 
-    .content p:hover {
-      color: #1E90FF;
-      transition: color 0.3s ease;
+    .button {
+      display: inline-block;
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 15px;
+    }
+
+    .button:hover {
+      background-color: #45a049;
+    }
+
+    .button-container {
+      text-align: center;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -80,6 +93,11 @@
 
           Whenever we try to connect with any third-party services, properly think through and handle all possible exceptions like timeout, internal error in that service, etc.
         </p>
+        
+        <div class="button-container">
+          <a class="button" href="index.html">Homepage</a>
+          <a class="button" href="blogs.html">Back to Blogs</a>
+        </div>
       </div>
     </div>
   </div>
