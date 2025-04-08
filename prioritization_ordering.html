@@ -4,14 +4,14 @@
   <!-- Basic Page Needs -->
   <meta charset="utf-8">
   <title>Yash Patel {yp}</title>
-  <meta name="description" content="Homepage of Yash Patel, Product Manager">
+  <meta name="description" content="Homepage of Yash Patel, Software Engineer.">
   <meta name="author" content="Yash Patel">
   <meta name="keywords" content="Yash Patel" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Yash Patel" />
-  <meta property="og:description" content="Homepage of Yash Patel, Product Manager" />
-  <!-- <meta property="og:image" content="http://yash.me/images/favicon.png" /> -->
-  <link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
+	<meta property="og:title" content="Yash Patel" />
+	<meta property="og:description" content="Homepage of Yash Patel, Software Engineer." />
+	<!-- <meta property="og:image" content="http://yash.me/images/favicon.png" /> -->
+	<link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
   <!-- Mobile Specific Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Fonts -->
@@ -33,35 +33,17 @@
 
     gtag('config', 'UA-73463502-1');
   </script>
-  <style>
-    .container {
-      width: 75%; /* Increase the width to make it wider */
-      max-width: 1200px; /* Maximum width */
-      margin: 0 auto; /* Center the container */
-      padding: 0 0 100px 0;
-    }
-    .row {
-      display: flex;
-      justify-content: center;
-    }
-    .one-half.column {
-      width: 100%;
-      padding: 0 20px; /* Adjust padding for spacing */
-      margin-top: 25%;
-    }
-  </style>
 </head>
 
 <body>
   <!-- Primary Page Layout -->
-  <div class="container">
-    <div class="row">
-      <div class="one-half column">
-        <h4>
-          <div class="text"></div>
-        </h4>
-        <!-- Subheader text -->
-        <p>
+<div class="container" style="min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 0;">
+  <div class="row" style="width: 100%; max-width: 800px; text-align: center;">
+    <div class="twelve columns">
+      <h4><div class="text" style="margin-bottom: 20px;"></div></h4>
+
+      <div style="text-align: left;">
+            <p>
           As Product Managers, one of our most valuable tools isn’t a roadmap or a fancy toolset—it’s the ability to prioritize and order effectively. When building great products, it’s not just about what gets done, but when and why.<br>
         
         <h5>🔍 Why Prioritization Matters</h5><br>
@@ -102,20 +84,17 @@
         Next time you’re overwhelmed with requests, ask yourself: What will move the needle now, and what can wait?
         
         Let your priorities speak louder than your plans. <br><br><br><br>
-        
-        <!--  <div id="sliding-div">
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-            <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
-        </div> -->
 
-        <!-- Buttons! Yay buttons! -->
-                <a class="button" href="index.html" style="margin-top: 30px;">Homepage</a>
-                <a class="button" href="blogs.html" style="margin-top: 30px;">Back to Blogs</a>
-
-        <!-- <a href="#0" class="button js-cd-panel-trigger" data-panel="main">Contact</a> -->
+        <!-- Add more blog links below using same pattern -->
       </div>
+
+      <a class="button" href="index.html" style="margin-top: 30px;">Homepage</a>
     </div>
   </div>
+</div>
+
+
+
 
 <!-- End Document -->
 </body>
@@ -125,6 +104,7 @@
 function hoverTool() {
   document.getElementById("demo").innerHTML
 }
+
 
 
 // END PROJECTS HOVER TOOL
@@ -184,7 +164,7 @@ function hoverTool() {
   }
 
   const phrases = [
-    'prioritization & ordering',
+    'blogs',
   ]
 
   const el = document.querySelector('.text');
@@ -209,3 +189,5 @@ function hoverTool() {
   next()
 // END JS SCRIPTS
 </script>
+
+</html>
