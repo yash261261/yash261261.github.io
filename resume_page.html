@@ -31,6 +31,36 @@
     gtag('js', new Date());
     gtag('config', 'UA-73463502-1');
   </script>
+  <style>
+    .stats-container {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 20px;
+      margin: 30px 0;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+    .stat-box {
+      flex: 1;
+      min-width: 150px;
+      padding: 20px;
+      background: #f8f8f8;
+      border-radius: 8px;
+      border-left: 4px solid #78cae3;
+    }
+    .stat-number {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: #78cae3;
+      margin: 0;
+    }
+    .stat-label {
+      font-size: 0.9em;
+      color: #666;
+      margin-top: 5px;
+    }
+  </style>
 </head>
 
 <body>
@@ -43,23 +73,23 @@
         <!-- Quick Stats -->
         <div class="stats-container">
           <div class="stat-box">
-            <div class="stat-number" data-target="6">6</div>
+            <div class="stat-number" data-target="6">0</div>
             <div class="stat-label">Years Experience</div>
           </div>
           <div class="stat-box">
-            <div class="stat-number" data-target="12">20+</div>
+            <div class="stat-number" data-target="12">0</div>
             <div class="stat-label">Projects Delivered</div>
           </div>
           <div class="stat-box">
-            <div class="stat-number" data-target="4">$5M+</div>
-            <div class="stat-label">Cost Savings</div>
+            <div class="stat-number" data-target="4">0</div>
+            <div class="stat-label">$M+ Cost Savings</div>
           </div>
           <div class="stat-box">
-            <div class="stat-number" data-target="50">50+</div>
-            <div class="stat-label">features launched</div>
+            <div class="stat-number" data-target="50">0</div>
+            <div class="stat-label">Sites Launched</div>
           </div>
         </div>
-        
+
         <div style="text-align: left;">
           
           <p>
@@ -152,6 +182,31 @@
 </body>
 
 <script>
+  // Animated Counter
+  function animateCounter(element) {
+    const target = parseInt(element.getAttribute('data-target'));
+    const duration = 2000;
+    const increment = target / (duration / 16);
+    let current = 0;
+
+    const updateCounter = () => {
+      current += increment;
+      if (current < target) {
+        element.textContent = Math.floor(current);
+        requestAnimationFrame(updateCounter);
+      } else {
+        element.textContent = target;
+      }
+    };
+
+    updateCounter();
+  }
+
+  // Start counters when page loads
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.stat-number').forEach(animateCounter);
+  });
+
   // BEGIN H4 TEXT SCRAMBLER
   class TextScramble {
     constructor(el) {
