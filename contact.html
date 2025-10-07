@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic Page Needs -->
+  <meta charset="utf-8">
+  <title>Yash Patel {yp}</title>
+  <meta name="description" content="Contact Yash Patel, Product Manager.">
+  <meta name="author" content="Yash Patel">
+  <meta name="keywords" content="Yash Patel" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Yash Patel" />
+  <meta property="og:description" content="Contact Yash Patel, Product Manager." />
+  <link rel="shortcut icon" href="/images/favicon.png" type="image/png" />
+  <!-- Mobile Specific Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fonts -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- CSS  -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/slider.css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <!-- Google stuff -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-73463502-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-73463502-1');
+  </script>
+  <style>
+    .contact-form {
+      max-width: 500px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: 'Raleway', sans-serif;
+    }
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    .error {
+      border-color: #e74c3c !important;
+    }
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.9em;
+      margin-top: 5px;
+      display: none;
+    }
+    .error-message.show {
+      display: block;
+    }
+    .required {
+      color: #e74c3c;
+    }
+    .submit-btn {
+      width: 100%;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Primary Page Layout -->
+  <div class="container" style="min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px 0;">
+    <div class="row" style="width: 100%; max-width: 800px; text-align: center;">
+      <div class="twelve columns">
+        <h4><div class="text" style="margin-bottom: 20px;"></div></h4>
+
+        <p style="margin-bottom: 30px;">Feel free to reach out! I'd love to hear from you.</p>
+
+        <form class="contact-form" id="contactForm">
+          <div class="form-group">
+            <label for="fullName">Full Name <span class="required">*</span></label>
+            <input type="text" id="fullName" name="fullName" placeholder="Your full name">
+            <div class="error-message" id="nameError">Please enter your full name</div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="your.email@example.com">
+          </div>
+
+          <div class="form-group">
+            <label for="purpose">Purpose of Contact <span class="required">*</span></label>
+            <textarea id="purpose" name="purpose" placeholder="What would you like to discuss?"></textarea>
+            <div class="error-message" id="purposeError">Please describe your purpose of contact</div>
+          </div>
+
+          <button type="submit" class="button submit-btn">Send Message</button>
+        </form>
+
+        <a class="button" href="index.html" style="margin-top: 30px;">Homepage</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- End Document -->
+</body>
+
+<script>
+  // Form validation and submission
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const fullName = document.getElementById('fullName');
+    const purpose = document.getElementById('purpose');
+    const email = document.getElementById('email');
+    
+    let isValid = true;
+    
+    // Reset errors
+    fullName.classList.remove('error');
+    purpose.classList.remove('error');
+    document.getElementById('nameError').classList.remove('show');
+    document.getElementById('purposeError').classList.remove('show');
+    
+    // Validate full name
+    if (!fullName.value.trim()) {
+      fullName.classList.add('error');
+      document.getElementById('nameError').classList.add('show');
+      isValid = false;
+    }
+    
+    // Validate purpose
+    if (!purpose.value.trim()) {
+      purpose.classList.add('error');
+      document.getElementById('purposeError').classList.add('show');
+      isValid = false;
+    }
+    
+    // If valid, create mailto link
+    if (isValid) {
+      const subject = encodeURIComponent(`Contact from ${fullName.value}`);
+      const body = encodeURIComponent(
+        `Name: ${fullName.value}\n` +
+        (email.value ? `Email: ${email.value}\n` : '') +
+        `\nPurpose:\n${purpose.value}`
+      );
+      
+      window.location.href = `mailto:yash261261@gmail.com?subject=${subject}&body=${body}`;
+      
+      // Optional: Reset form after submission
+      setTimeout(() => {
+        this.reset();
+      }, 1000);
+    }
+  });
+
+  // BEGIN H4 TEXT SCRAMBLER
+  class TextScramble {
+    constructor(el) {
+      this.el = el;
+      this.chars = '!<>-_\\/[]{}—=+*^?#________';
+      this.update = this.update.bind(this);
+    }
+
+    setText(newText){
+      const oldText = this.el.innerText;
+      const length = Math.max(oldText.length,newText.length);
+      const promise = new Promise((resolve)=>this.resolve = resolve);
+      
+      this.queue = [];
+      for(let i = 0;i<length;i++){
+        const from = oldText[i] || '';
+        const to  = newText[i] || '';
+        const start = Math.floor(Math.random()*40);
+        const end = Math.floor(Math.random()*40) + start;
+        this.queue.push({from,to,start,end});
+      }
+      
+      cancelAnimationFrame(this.frameRequest);
+      this.frame = 0;
+      this.update();
+      return promise;
+    }
+    
+    update() {
+      let output = '';
+      let complete = 0;
+      for(let i=0,n=this.queue.length;i<n;i++){
+        let {from,to,start,end,char} = this.queue[i];
+        
+        if(this.frame >= end){
+          complete++;
+          output += to;
+        }else if(this.frame >= start){
+          if(!char || Math.random() < 0.28){char = this.randomChar();this.queue[i].char = char;}
+          output += `<span class='dud'>${char}</span>`;
+        }else {
+          output += from;
+        }
+      }
+      this.el.innerHTML = output;
+      if(complete === this.queue.length){this.resolve();}else{
+        this.frameRequest = requestAnimationFrame(this.update);this.frame++;}
+    }
+      
+    randomChar() {
+      return this.chars[Math.floor(Math.random() * this.chars.length)]
+    }
+  }
+
+  const phrases = [
+    'contact me',
+  ]
+
+  const el = document.querySelector('.text');
+  const fx = new TextScramble(el);
+
+  let counter = 0;
+  let reset = false;
+  const next = () => {
+    if (reset) {
+      fx.setText(phrases[counter])
+    } else {
+      fx.setText(phrases[counter]).then(()=>{
+        setTimeout(next,800)
+      })
+      counter = (counter+1) % phrases.length
+      if (counter == 0) {
+        reset = true;
+      }
+    }
+  }
+  next()
+  // END JS SCRIPTS
+</script>
+
+</html>
