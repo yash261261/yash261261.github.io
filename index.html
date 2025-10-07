@@ -97,23 +97,7 @@
       </div>
     </div>
   </div>
-<script>
-    // Clock function - Eastern Time
-    function updateClock() {
-      const now = new Date();
-      const options = {
-        timeZone: 'America/New_York',
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true
-      };
-      const timeString = now.toLocaleTimeString('en-US', options);
-      document.getElementById('clock').textContent = timeString;
-    }
 
-    // Update clock every second
-    updateClock();
-    setInterval(updateClock, 1000);
   <script>
     class TextScramble {
       constructor(el) {
