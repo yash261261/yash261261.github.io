@@ -1,6 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+	<style>
+/* Image Preview Overlay */
+.image-preview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  padding: 60px;
+}
+
+.image-preview-overlay.active {
+  display: flex;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.image-preview-container {
+  max-width: 700px;
+  max-height: 600px;
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.image-preview-overlay.active .image-preview-container {
+  transform: scale(1);
+}
+
+.preview-image {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  display: block;
+  background: white;
+}
+
+.preview-label {
+  color: white;
+  text-align: center;
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.image-counter {
+  color: white;
+  text-align: center;
+  margin-top: 8px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.image-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.nav-button {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.nav-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.nav-button:disabled:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+</style>
   <!-- Basic Page Needs -->
   <meta charset="utf-8">
   <title>Yash Patel {yp}</title>
@@ -46,7 +144,8 @@
 		               <p>
 		 // 2025
 		<br />
-            <a href="">Finance Tracker App</a> // <span>Finance Tracker App</span>
+            <a href="" class="project-link" data-images='["images/ft1.png"]'>Finance Tracker App</a> // <span>Finance Tracker App</span>
+
 		 <p>
              <p>
 		 // 2024
@@ -141,7 +240,18 @@
 </div>
 
 
-
+<!-- Image Preview Overlay -->
+<div class="image-preview-overlay" id="imagePreview">
+  <div class="image-preview-container">
+    <img src="" alt="Project Preview" class="preview-image" id="previewImage">
+    <div class="preview-label" id="previewLabel"></div>
+    <div class="image-counter" id="imageCounter"></div>
+    <div class="image-navigation" id="imageNavigation">
+      <button class="nav-button" id="prevBtn">← Previous</button>
+      <button class="nav-button" id="nextBtn">Next →</button>
+    </div>
+  </div>
+</div>
 
 <!-- End Document -->
 </body>
@@ -234,6 +344,136 @@ function hoverTool() {
     //console.log(counter)
   }
   next()
+
+	// BEGIN PROJECT IMAGE PREVIEW
+const projectLinks = document.querySelectorAll('.project-link');
+const imagePreview = document.getElementById('imagePreview');
+const previewImage = document.getElementById('previewImage');
+const previewLabel = document.getElementById('previewLabel');
+const imageCounter = document.getElementById('imageCounter');
+const imageNavigation = document.getElementById('imageNavigation');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+let currentImages = [];
+let currentIndex = 0;
+let hoverTimeout;
+
+function updateImage() {
+  if (currentImages.length > 0) {
+    previewImage.src = currentImages[currentIndex];
+    
+    // Update counter
+    if (currentImages.length > 1) {
+      imageCounter.textContent = `${currentIndex + 1} / ${currentImages.length}`;
+      imageCounter.style.display = 'block';
+      imageNavigation.style.display = 'flex';
+      
+      // Update button states
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = currentIndex === currentImages.length - 1;
+    } else {
+      imageCounter.style.display = 'none';
+      imageNavigation.style.display = 'none';
+    }
+  }
+}
+
+function showPreview(images, projectName) {
+  currentImages = images;
+  currentIndex = 0;
+  previewLabel.textContent = projectName;
+  updateImage();
+  imagePreview.classList.add('active');
+}
+
+function hidePreview() {
+  imagePreview.classList.remove('active');
+  currentImages = [];
+  currentIndex = 0;
+}
+
+projectLinks.forEach(link => {
+  link.addEventListener('mouseenter', function(e) {
+    e.preventDefault();
+    const imagesAttr = this.getAttribute('data-images');
+    const projectName = this.textContent;
+    
+    if (imagesAttr) {
+      clearTimeout(hoverTimeout);
+      
+      hoverTimeout = setTimeout(() => {
+        try {
+          const images = JSON.parse(imagesAttr);
+          showPreview(Array.isArray(images) ? images : [images], projectName);
+        } catch (error) {
+          console.error('Error parsing images:', error);
+        }
+      }, 300);
+    }
+  });
+
+  link.addEventListener('mouseleave', function(e) {
+    // Only hide if not moving to the preview overlay
+    clearTimeout(hoverTimeout);
+    
+    hoverTimeout = setTimeout(() => {
+      if (!imagePreview.matches(':hover')) {
+        hidePreview();
+      }
+    }, 100);
+  });
+});
+
+// Keep preview open when hovering over it
+imagePreview.addEventListener('mouseenter', function() {
+  clearTimeout(hoverTimeout);
+});
+
+// Hide when leaving the preview
+imagePreview.addEventListener('mouseleave', function() {
+  hidePreview();
+});
+
+// Navigation buttons
+prevBtn.addEventListener('click', function(e) {
+  e.stopPropagation();
+  if (currentIndex > 0) {
+    currentIndex--;
+    updateImage();
+  }
+});
+
+nextBtn.addEventListener('click', function(e) {
+  e.stopPropagation();
+  if (currentIndex < currentImages.length - 1) {
+    currentIndex++;
+    updateImage();
+  }
+});
+
+// Hide on overlay click (but not on image or navigation)
+imagePreview.addEventListener('click', function(e) {
+  if (e.target === imagePreview) {
+    hidePreview();
+  }
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', function(e) {
+  if (imagePreview.classList.contains('active')) {
+    if (e.key === 'ArrowLeft' && currentIndex > 0) {
+      currentIndex--;
+      updateImage();
+    } else if (e.key === 'ArrowRight' && currentIndex < currentImages.length - 1) {
+      currentIndex++;
+      updateImage();
+    } else if (e.key === 'Escape') {
+      hidePreview();
+    }
+  }
+});
+// END PROJECT IMAGE PREVIEW
 // END JS SCRIPTS
 </script>
 
